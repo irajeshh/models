@@ -2,7 +2,7 @@ part of '../models.dart';
 
 ///A standard model to reduce the redundancy of documentation
 ///and also it helps to reduce fogetting the important functions of a class
-abstract class Model extends Equatable {
+abstract class Model<T> extends Equatable {
   ///Constructor
   const Model();
 
@@ -13,16 +13,16 @@ abstract class Model extends Equatable {
   // }
 
   ///Returns the data in Json format
-  Map<String, dynamic> get toJson;
+  Json get toJson;
 
   ///Creates new instance of the Object
-  Model copyWith();
+  T copyWith();
+
+  @override
+  List<dynamic> get props => toJson.values.toList();
 
   @override
   String toString() {
     return toJson.toString();
   }
-
-  @override
-  List<dynamic> get props => toJson.values.toList();
 }
