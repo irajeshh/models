@@ -25,11 +25,31 @@ abstract class Model extends Equatable {
 
   @override
   List<dynamic> get props => toJson.values.toList();
+
+  ///This searches if any word is available in this Model data
+  bool containsQuery(
+    final String q, {
+    final List<String> extraParams = const <String>[],
+  }) {
+    final List<String> tags = q.replaceAll(',', ' ').replaceAll('  ', '').split(' ').where((final String e) => e.trim().filtered.isNotEmpty).toList();
+    bool contains = false;
+    if (tags.isNotEmpty) {
+      for (final String tag in tags) {
+        contains = <dynamic>[...props, ...extraParams].equatable.contains(tag.equatable);
+        if (contains) {
+          break;
+        }
+      }
+    } else {
+      contains = true;
+    }
+    return contains;
+  }
 }
 
 extension ModelExtension on List<Model> {
   ///Models to Jsons list
   List<Map<String, dynamic>> get toJsons {
-    return this.map((m) => m.toJson).toList();
+    return map((final Model m) => m.toJson).toList();
   }
 }
